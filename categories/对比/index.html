@@ -101,17 +101,13 @@
 
 
 
-<meta name="description" content="如何交流SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234567891、分布式">
 <meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://yoursite.com/about/index.html">
+<meta property="og:title" content="SnappyData中文博客">
+<meta property="og:url" content="http://yoursite.com/categories/对比/index.html">
 <meta property="og:site_name" content="SnappyData中文博客">
-<meta property="og:description" content="如何交流SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234567891、分布式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-19T08:58:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="如何交流SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234567891、分布式">
+<meta name="twitter:title" content="SnappyData中文博客">
 
 
 
@@ -141,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/about/"/>
+  <link rel="canonical" href="http://yoursite.com/categories/对比/"/>
 
 
 
 
 
-  <title>关于 | SnappyData中文博客</title>
+  <title>分类: 对比 | SnappyData中文博客</title>
   
 
 
@@ -166,7 +162,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -260,43 +256,55 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-    
-    
-    <div class="post-block page">
-      <header class="post-header">
+  
+  
+  
+  <div class="post-block category">
 
-	<h1 class="post-title" itemprop="name headline">关于</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-        
-        
-          <h3 id="如何交流"><a href="#如何交流" class="headerlink" title="如何交流"></a>如何交流</h3><p><strong>SnappyData</strong>是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。</p>
-<p>分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。</p>
-<h3 id="SnappyData的特性"><a href="#SnappyData的特性" class="headerlink" title="SnappyData的特性"></a>SnappyData的特性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、分布式存储+计算引擎</span><br><span class="line">2、完全基于内存</span><br><span class="line">3、融合了Gemfire与Apache Spark的特性</span><br><span class="line">4、支持行存，且支持列存(压缩)</span><br><span class="line">5、对行存与列存都支持DML操作</span><br><span class="line">6、区分开源版本与闭源版本(支持off-heap与AQP功能)</span><br><span class="line">7、存储时可指定关联关系，使得数据本地化(colocate)，多表join性能是Spark的20倍+</span><br><span class="line">8、完全兼容Spark，支持标准SQL与Spark SQL</span><br><span class="line">9、对实时数据的处理只需用标准SQL或Spark SQL即可，同时由于其存储明细数据，使得对实时数据的处理既支持乱序又支持Retraction，非常适合ad-hoc类查询</span><br></pre></td></tr></table></figure>
-<h3 id="与TiDB对比"><a href="#与TiDB对比" class="headerlink" title="与TiDB对比"></a>与TiDB对比</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TiDB是基于KV的行存；SnappyData支持列存。</span><br><span class="line">TiDB更适合OLTP事务；SnappyData更适合OLAP分析。</span><br><span class="line">TiDB存储于RocksDB；SnappyData完全内存，且支持overflow。</span><br><span class="line">TiDB支持DQL、DML与DDL；SnappyData也支持DQL、DML与DDL。</span><br><span class="line">TiDB支持分布式的多副本；SnappyData也支持多副本。</span><br><span class="line">TiSpark基于Spark处理复杂SQL；SnappyData存储采用与Spark一样的存储格式，省去加载的时间，同时支持colocate，使得join时性能提升2个级别</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData相比于Spark的优势"><a href="#SnappyData相比于Spark的优势" class="headerlink" title="SnappyData相比于Spark的优势"></a>SnappyData相比于Spark的优势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Spark的RDD不可变；SnappyData可变(Gemfire)，因此SnappyData的数据支持DML</span><br><span class="line">Spark需要从外部数据源加载数据；SnappyData不需要加载，存储格式与Spark的DataFrame一致</span><br><span class="line">Spark计算时基于内存；SnappyData计算转换为Spark Job，也是基于内存(不是所有的SQL都走Spark Job)</span><br><span class="line">Spark对于多表join，涉及跨机器join，性能受限；SnappyData存储支持表间colocate，join发生在机器本地，性能提高</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData相比于Flink的优势"><a href="#SnappyData相比于Flink的优势" class="headerlink" title="SnappyData相比于Flink的优势"></a>SnappyData相比于Flink的优势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Flink流处理的API是DataStream，学习成本较高；SnappyData API支持标准SQL与Spark SQL，学习成本较低。</span><br><span class="line">Flink的Stream SQL目前支持功能有限，尤其是流表join与双流join</span><br><span class="line">Flink在单流的汇总功能强大，双流join欠缺准确性；SnappyData支持多个表的join，且准确性极高</span><br><span class="line">Flink的处理延时极低(毫秒级)；SnappyData处理延迟同样极低(毫秒级)</span><br><span class="line">Flink处理一个需求就需要单独一个job；SnappyData简单很多，一个SQL对应一个需求，效率极高</span><br><span class="line">Flink支持乱序及Retraction，但是已经发出的结果不能更改；SnappyData由于存储明细数据，因此也支持乱序与Retraction，同时对于已经发出的结果，同样可以更改(客户端只需再次调用一遍SQL即可)</span><br><span class="line">Flink实时处理不能很好的关联大量的历史数据；SnappyData随意关联历史数据，通过SQL不但可以查询实时数据，同样可查询历史数据</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData的劣势"><a href="#SnappyData的劣势" class="headerlink" title="SnappyData的劣势"></a>SnappyData的劣势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、尽管列存支持压缩，从而大幅度减少数据量，同时可以横向扩展，但是内存空间的使用仍然使得成本较高</span><br><span class="line">2、存储+计算都在内存进行，且Spark Job的运行基于JVM，要注意防止内存不足的情况出现</span><br><span class="line">3、社区不够活跃</span><br><span class="line">4、对于PB及以上的数据规模，即使横向扩展也不太适合这种规模</span><br></pre></td></tr></table></figure>
-
-        
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>对比<small>分类</small>
+        </h1>
       </div>
+
       
-      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/2018/03/19/SnappyData与类似引擎的对比-1/" itemprop="url">
+              
+                <span itemprop="name">SnappyData与类似引擎的对比-1</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-03-19T16:55:31+08:00"
+              content="2018-03-19" >
+          03-19
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
       
     </div>
-    
-    
-    
+
   </div>
+  
+  
+  
+
+  
+
 
 
           </div>
@@ -304,15 +312,6 @@
 
 
           
-
-  
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDk4MC8xMTUxNw"></div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -333,17 +332,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -447,22 +437,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何交流"><span class="nav-number">1.</span> <span class="nav-text">如何交流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData的特性"><span class="nav-number">2.</span> <span class="nav-text">SnappyData的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与TiDB对比"><span class="nav-number">3.</span> <span class="nav-text">与TiDB对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData相比于Spark的优势"><span class="nav-number">4.</span> <span class="nav-text">SnappyData相比于Spark的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData相比于Flink的优势"><span class="nav-number">5.</span> <span class="nav-text">SnappyData相比于Flink的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData的劣势"><span class="nav-number">6.</span> <span class="nav-text">SnappyData的劣势</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -633,10 +607,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
@@ -665,17 +635,6 @@
 
 
 
-  
-    <script type="text/javascript">
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
   
 
 
