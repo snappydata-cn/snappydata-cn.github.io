@@ -1,14 +1,9 @@
 ---
-title: 关于
-date: 2018-03-19 11:56:33
+layout: blog
+title: SnappyData与TiDB,Spark,Flink的对比-1
+date: 2018-03-19 16:55:31
+categories: 对比
 ---
-
-### 如何交流？
-
-[SnappyData专业中文社区](http://47.104.162.24/)
-
-**微信群：** SnappyData中国用户组
-
 
 ### SnappyData是什么？
 
@@ -74,6 +69,3 @@ Flink实时处理不能很好的关联大量的历史数据；SnappyData随意�
 3、社区不够活跃
 4、对于PB及以上的数据规模，即使横向扩展也不太适合这种规模
 ```
-
-
-
