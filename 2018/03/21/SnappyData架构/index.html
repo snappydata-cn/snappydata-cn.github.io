@@ -101,12 +101,12 @@
 
 
 
-<meta name="description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件进行讲解。 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta name="description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SnappyData架构">
 <meta property="og:url" content="http://yoursite.com/2018/03/21/SnappyData架构/index.html">
 <meta property="og:site_name" content="SnappyData中文博客">
-<meta property="og:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件进行讲解。 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta property="og:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/components.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/column.png">
@@ -114,10 +114,10 @@
 <meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/ingestion.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/architecture.png">
 <meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/hybrid_cluster.png">
-<meta property="og:updated_time" content="2018-03-21T11:39:48.000Z">
+<meta property="og:updated_time" content="2018-03-21T11:48:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SnappyData架构">
-<meta name="twitter:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件进行讲解。 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta name="twitter:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/21/SnappyData架构/components.png">
 
 
@@ -379,7 +379,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,436
+                  3,473
                 </span>
               
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  12
+                  13
                 </span>
               
             </div>
@@ -416,7 +416,7 @@
       
 
       
-        <p>SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件进行讲解。</p>
+        <p>SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容</p>
 <h3 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h3><p><img src="/2018/03/21/SnappyData架构/components.png" alt=""></p>
 <p>SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。</p>
 <h3 id="说存储"><a href="#说存储" class="headerlink" title="说存储"></a>说存储</h3><a id="more"></a>
@@ -470,9 +470,9 @@
 <p>失败检测：对于节点失败是很容易检测到的；而对于网络分裂或者脑裂情况，就会比较复杂一些。SnappyData通过UDP neighbor ping等机制进行多次检测，以确定疑似的失败是否是真正的失败。</p>
 <p>HA：SnappyData另一个高可用的地方表现在其Lead节点的HA，即可配置primary角色和standby角色。选举则根据分布式锁服务，先到的就是primary。</p>
 <h4 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h4><p>SnappyData提供了<strong>read committed</strong>和<strong>repeatable read</strong>两种事务隔离级别。在写入发生时，会对所有的副本加排他锁，这里有个假设就是很少出现不能获得排他写锁的情况，提交的时候会应用到所有的副本。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到此为止，关于SnappyData的架构，基本就讲完了。我们后续会继续根据SnappyData的使用写一个应用类的博客。</p>
-<p>也欢迎大家加入<a href="http://47.104.162.24/" target="_blank" rel="noopener">SnappyData专业中文社区</a>和<strong>SnappyData中国用户组</strong>微信群进行交流。</p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="https://www.snappydata.io/snappy-industrial" target="_blank" rel="noopener">SnappyData: Streaming, Transactions, and Interactive<br>Analytics in a Unified Engine</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到此为止，关于SnappyData的架构，基本就讲完了。我们后续会继续根据SnappyData的使用写一些应用类的博客。</p>
+<p>也欢迎大家加入<strong><a href="http://47.104.162.24/" target="_blank" rel="noopener">SnappyData专业中文社区</a></strong>和<strong>SnappyData中国用户组</strong>微信群进行交流。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="https://www.snappydata.io/snappy-industrial" target="_blank" rel="noopener">SnappyData: Streaming,Transactions,and Interactive<br>Analytics in a Unified Engine</a></p>
 <p><a href="https://snappydatainc.github.io/snappydata/architecture/core_components/" target="_blank" rel="noopener">官方文档</a></p>
 
       
