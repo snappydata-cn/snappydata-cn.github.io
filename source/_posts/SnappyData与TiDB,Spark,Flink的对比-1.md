@@ -26,6 +26,7 @@ categories: 对比
 9、对实时数据的处理只需用标准SQL或Spark SQL即可，同时由于其存储明细数据，使得对实时数据的处理既支持乱序又支持Retraction，非常适合ad-hoc类查询
 ```
 
+<!-- more -->
 
 ###  与TiDB对比
 

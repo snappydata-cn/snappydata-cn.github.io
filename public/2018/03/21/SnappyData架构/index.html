@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/sd.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/sd.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="SnappyData中文博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SnappyData架构">
+<meta property="og:url" content="http://yoursite.com/2018/03/21/SnappyData架构/index.html">
+<meta property="og:site_name" content="SnappyData中文博客">
+<meta property="og:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/components.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/column.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/row.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/ingestion.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/architecture.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/21/SnappyData架构/hybrid_cluster.png">
+<meta property="og:updated_time" content="2018-03-23T03:17:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SnappyData架构">
+<meta name="twitter:description" content="SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容 核心组件 SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。 说存储">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/21/SnappyData架构/components.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/21/SnappyData架构/"/>
+
+
+
+
+
+  <title>SnappyData架构 | SnappyData中文博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SnappyData中文博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/SnappyData架构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="经营效率小队">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/snappydata.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SnappyData中文博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SnappyData架构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-21T10:31:02+08:00">
+                2018-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/科普/" itemprop="url" rel="index">
+                    <span itemprop="name">科普</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/21/SnappyData架构/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/21/SnappyData架构/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,493
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SnappyData既是个存储引擎，也是个计算引擎。这篇文章主要针对SnappyData的核心组件与整体架构进行讲解，并涉及数据模型、数据注入流程、如何响应SQL请求、集群角色和集群管理等内容</p>
+<h3 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h3><p><img src="/2018/03/21/SnappyData架构/components.png" alt=""></p>
+<p>SnappyData融合了GemFire与Spark，其中，图中灰色背景的来源于Spark中的组件。</p>
+<h3 id="说存储"><a href="#说存储" class="headerlink" title="说存储"></a>说存储</h3><a id="more"></a>
+<p>SnappyData中的数据既可以采用行存，也可以设计为列存。行存可以设置分区和全局复制(各个节点中都有一份)，列存仅仅支持分区(基于hash)。</p>
+<p>不管是行存还是列存，数据都是在内存中进行存储的，且可以设置1个或多个副本。内存中既可以使用on heap，也可以使用off-heap(只有企业版才支持)。</p>
+<p>如果采用行存，那么内存的消耗势必会更多些，但是它很适合随机DML或者基于点的select查询等OLTP操作。如果采用列表，那么数据会被存储在连续的内存中并进行压缩。</p>
+<p>其中列存是从Spark RDD中派生而来，遵循着Spark DataSource的访问模型，并且允许压缩。其压缩算法采用的是<a href="https://zh.wikipedia.org/wiki/%E6%B8%B8%E7%A8%8B%E7%BC%96%E7%A0%81" target="_blank" rel="noopener"><strong>游程编码(RLE)</strong></a>和<strong>字典编码</strong>的方式。<br>具体来说，就是对于整形的数据，会根据RLE进行压缩，对于String类型的数据，则会采用字典编码进行压缩。</p>
+<p><img src="/2018/03/21/SnappyData架构/column.png" alt=""></p>
+<p>而行存则可以创建索引，支持对于主键与索引字段的快速读写。一般情况下，行表的访问都是通过主键完成，通过对key进行hash运算，很快可以访问到其内存中的地址。</p>
+<p><img src="/2018/03/21/SnappyData架构/row.png" alt=""></p>
+<p>通常，设计行表用于OLTP事务操作，而设计列表的目的主要用于OLAP分析。</p>
+<p>关于行表和列表的DDL语句，可以参考官方文档:<a href="https://snappydatainc.github.io/snappydata/sql_reference/" target="_blank" rel="noopener">SQL Reference Guide</a>。</p>
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><p>列表有个区别于Spark RDD的显著特点：可变性。即可以对SnappyData中的列表进行点更新或者批量更新等DML操作，这是因为GemFire的作用。</p>
+<p>通常批量的update和批量的insert效率会更高，例如执行一个包含10万条数据的update语句，比10万个只包含1条数据的update语句效率要高的多。</p>
+<p>列表主要由2个组件组成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、delta row buffer</span><br><span class="line">2、列存数据</span><br></pre></td></tr></table></figure>
+<p>首先，delta row buffer是一个行存，它具有与其列表相同的分区策略，它的特点是高速写入。</p>
+<p>当数据写入到列表时，它在内部的写入步骤如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、数据首先会被写入到这个高速的row buffer中</span><br><span class="line">2、当row buffer大小达到设置的大小(snappydata.column.batchSize,默认24M)或者row buffer的行数大于设定的行数(snappydata.column.maxDeltaRows，默认10000行)时，数据会被压缩并最终写入到列表中。</span><br></pre></td></tr></table></figure>
+<p>其次，delta row buffer中的delta，体现在它的内部结构上。它实际上是一个<strong>合并队列</strong>。所谓合并的含义，是指对同一列数据进行多个操作，它只会保留最终的状态。</p>
+<p>举例来说，假如对某个记录先进行insert或者update操作，在row buffer被刷到列表前，又进行delete操作，那么实际上这个数据会从这个队列中直接删除；又或者某个列上进行连续2个update操作，那么这个row buffer最终只会将最后的那个update的值写入到列表中。</p>
+<p>最后，SnappyData还扩展了Spark的Catalyst，使得在列表上进行select操作时，会将delta row buffer中的数据merge到列表中，以保证查询到最新的数据。</p>
+<p>同时，对于同一列上多个并发的DML操作，SnappyData采用了<strong>copy-on-write</strong>来保证数据一致性。</p>
+<h4 id="DDL的扩展"><a href="#DDL的扩展" class="headerlink" title="DDL的扩展"></a>DDL的扩展</h4><p>由于融合了GemFire和Spark，因此在创建表时，SnappyData对标准DDL语句进行了扩展，具体如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1、COLOCATE_WITH:COLOCATE_WITH &#123;exist_table&#125;语法的含义是对于新建的表，与exist_table具有相同的分区键，且相同键存储在同一个节点上，即数据存储本地化。这样做的好处是当2个表发生基于key的join时，那些非常耗资源的hash join就不用跨节点进行数据传输(广播)，而是在本地进行join。这个设计思路非常像关系型数据库Oracle中的cluster存储。这种数据存储本地化的特点，也是SnappyData在做join时比Spark快很多的原因之一。</span><br><span class="line"></span><br><span class="line">2、PARTITION_BY:PARTITION_BY &#123;COLUMN&#125;语法的含义是按某列进行分区，当然也可以指定多个列作为组合。行表如果没有指定分区键，那么将是一张全局复制表；列表如果没有指定，那么内部也会有个默认的分区。列表中的分区遵循Spark Catalyst的hash分区，使得join时最小化shuffle。</span><br><span class="line"></span><br><span class="line">3、BUCKETS：分区的个数。默认是128个，最小的数据存储单元。本地存储，这个值可以设置为集群core数量的2倍。</span><br><span class="line"></span><br><span class="line">4、REDUNDANCY：分区的副本数，如果设置为0，表示没有副本；如果设置大于0，则会为partition创建对应的副本数，以防止member失败，达到数据的高可用性的目的。</span><br><span class="line"></span><br><span class="line">5、EVICTION_BY：驱逐，很像Flink window中的eviction设置。列表上默认的参数值是LRUHEAPPERCENT，根据LRU算法达到阀值时，开始将内存中的较“冷”的数据溢出到本地磁盘：SnappyStore存储。</span><br><span class="line"></span><br><span class="line">6、PERSISTENCE：持久化。默认是允许持久化的，数据会从内存中持久化到本地SnappyStore存储中，当重启memeber时，SnappyData会自动从本地的SnappyStore存储中恢复数据。</span><br><span class="line"></span><br><span class="line">7、OVERFLOW：溢出，默认是true，即允许溢出。如果没有指定PERSISTENCE，且将OVERFLOW设置为false，那么当失败时，内存中的数据将被丢失。</span><br><span class="line"></span><br><span class="line">8、DISKSTORE：为持久化的数据或溢出的数据提供持久化目录。可以通过CREATE DISKSTORE为表提前创建出本地文件目录，可以指定文件、配置数据收缩、配置数据异步到磁盘的频率等等.</span><br><span class="line"></span><br><span class="line">9、EXPIRE：过期时间。为了提高内存使用率，对于很老的历史数据，可以通过设置过期时间使得超过阀值的行数据过期。但是过期参数只适合行表。</span><br><span class="line"></span><br><span class="line">10、COLUMN_BATCH_SIZE：刚才提到了，delta row buffer的batch大小，默认24MB。超过阀值就会写到列表。</span><br><span class="line"></span><br><span class="line">11、COLUMN_MAX_DELTA_ROWS：delta row buffer的最大行数，默认10000行。超过阀值会写到列表。</span><br></pre></td></tr></table></figure>
+<p>除此之外，列表上也有些限制，例如不能设置主键、唯一约束、索引、不适合过期设置，LRUCount的驱逐不适合，<strong>READ_COMMITTED</strong>和<strong>REPEATABLE_READ</strong>的隔离级别不适合列表。</p>
+<h3 id="API及其他组件"><a href="#API及其他组件" class="headerlink" title="API及其他组件"></a>API及其他组件</h3><p>SnappyData中支持2种API：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、标准SQL+Spark SQL</span><br><span class="line">2、Spark API</span><br></pre></td></tr></table></figure>
+<p>我们可以把SnappyData当做一个SQL数据库，Spark SQL Catalyst会解析SQL，生成可执行的物理执行计划并代码生成Spark的job去执行。但是，并不是所有的SQL语句都交给Spark去解析。对于行表上快速的点update这种OLTP操作，会由P2P网络负责，同时直接追加到列表上的点insert操作，也会交给GemFire处理，这样做的目的不用通过Spark Job执行，加快执行速度。</p>
+<p>P2P(peer-to-peer)网络组件的作用有3个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、发现服务：检测新成员的加入或member失败。</span><br><span class="line">2、副本一致性：同步复制副本数据。</span><br><span class="line">3、快速点更新</span><br></pre></td></tr></table></figure>
+<p>客户端可以通过JDBC或ODBC(企业版才支持)连接到SnappyData。除此之外，流处理功能则依赖Spark Streaming组件实现。</p>
+<p>SDE是Synopsis Data Engine的简称，核心要素是通过分层采样等方法对超大规模的历史数据建立采样表，通过允许丢失一定比例的准确性，达到快速返回结果的目的。这也是流处理概念的核心：在准确性和低延迟之间做的一种取舍。这种方法也叫AQP(approximate query processing)，即近似查询处理，但是只有企业版中才支持。</p>
+<h3 id="数据流程"><a href="#数据流程" class="headerlink" title="数据流程"></a>数据流程</h3><p><img src="/2018/03/21/SnappyData架构/ingestion.png" alt=""></p>
+<p>图中共有6个步骤，表明了数据从导入到查询的通常步骤：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1、原始数据导入：一旦集群建立，就可以从外部数据源(HDFS、Hive、MySQL、Oracle、csv等)中导入历史数据；行存或列存根据需求而定。</span><br><span class="line"></span><br><span class="line">2、流式数据实时注入：你可以将实时产生的数据插入到SnappyData，可以采用Spark Streaming的DStream将批量的数据导入，当然也可以采用其他框架(Flink等)来批量导入实时数据。</span><br><span class="line"></span><br><span class="line">3、实时查询：当实时数据注入后，你便可以用SQL进行复杂的、多维度聚合的数据(实时+历史)。</span><br><span class="line"></span><br><span class="line">4、delta row buffer：在数据被写入列表前，会先写到高速的row buffer中，且它具有合并的功能，在老化到(根据COLUMN_BATCH_SIZE和COLUMN_MAX_DELTA_ROWS)列表前，只会存储最终的状态。</span><br><span class="line"></span><br><span class="line">5、防止OOM：表可以设置为持久化到磁盘和溢出到磁盘(LRU算法)，以防止OOM。而且，当历史数据过大或者不再查询时，可以将这些数据写到HDFS中。</span><br><span class="line"></span><br><span class="line">6、ad-hoc查询：数据注入后，用户既可以对实时数据进行交互式的查询，也可以结合历史数据进行OLAP分析。用户也可以使用AQP功能，AQP功能会牺牲准确性从而达到低延迟的目的，但AQP只在企业版中支持。</span><br></pre></td></tr></table></figure>
+<h3 id="SnappyData角色"><a href="#SnappyData角色" class="headerlink" title="SnappyData角色"></a>SnappyData角色</h3><p><img src="/2018/03/21/SnappyData架构/architecture.png" alt=""></p>
+<p>SnappyData集群是有3种不同的角色组成的P2P网络：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、Locator：发现新成员的加入，接受客户端请求，失败恢复等。为了高可用，通常locator有2个，一主一备。</span><br><span class="line"></span><br><span class="line">2、Lead Node：相当于Spark Driver的角色，负责集群管理并分发Spark Job给Executor；通常也是一主一备。</span><br><span class="line"></span><br><span class="line">3、Data Servers：存储数据；同时扮演Executor的角色执行任务计算。Server角色负责对locator发送的请求进行SQL解析，如果数据只涉及本节点，那么无需发送给lead，直接在本地进行计算；否则发送给lead，由lead负责分发job到各个对应的节点进行计算。</span><br></pre></td></tr></table></figure>
+<p>上图中我们可以看到，客户端通过JDBC或者ODBC，指定locator的地址进行连接；locator会将客户端的连接分发到不同的server；server负责解析SQL，并判断是否交给lead进行job部署,这里有些SQL语句是不需要由lead生成spark job的，例如show tables，行表上的操作，insert into XX values(xx)单点插入等；如果是复杂的SQL，则交给lead进行分发，具体的执行则分发到各个server执行计算。</p>
+<h3 id="混合集群管理器"><a href="#混合集群管理器" class="headerlink" title="混合集群管理器"></a>混合集群管理器</h3><p><img src="/2018/03/21/SnappyData架构/hybrid_cluster.png" alt=""></p>
+<p>Spark主要是用于批处理操作，通常对大量数据的处理(包括多表join等)时间都比较高。但是这对于SnappyData来讲无法接受，好在SnappyData利用了全内存、与Spark存储格式一致、colocate数据本地化等特点，得以将延迟降低到秒级或者毫秒级。</p>
+<p>除此之外，SnappyData还必须满足额外的需求才可以作为一个实时的SQL数据库使用，例如高并发、状态共享、高可用以及数据一致性。</p>
+<h4 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h4><p>面对高并发，SnappyData将客户端所有的请求分成2类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、低延迟的请求</span><br><span class="line">2、高延迟的请求</span><br></pre></td></tr></table></figure>
+<p>对于低延迟的请求，SnappyData会跳过Spark的调度，而是直接由GemFireXD处理数据，例如上边提到的行表的操作，点插入，show或describe命令等；</p>
+<p>而对于高延迟的请求，则会根据Spark的Fair调度机制分发到各个server执行计算，例如列表上的select或者点更新，批量DML等。</p>
+<h4 id="状态共享"><a href="#状态共享" class="headerlink" title="状态共享"></a>状态共享</h4><p>SnappyData是一个Shared Nothing存储，完全的分布式本地存储。但是不同的job之间，数据是可以共享的。原因就是因为SnappyData本身也是个存储引擎，其数据完全驻留在内存中，因此天然具有状态共享的优点。</p>
+<h4 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h4><p>发现服务：SnappyData是个P2P网络，因此它提供了发现服务，即提供一个包括lead和server的列表。</p>
+<p>组协调器：最先加入的成员自然成为了coordinator角色，这个角色会不断的检测当前的member，并与初始的列表进行对比以确保所有成员是可用的。当有新的成员加入时，根据发现服务，coordinator会将新加入的成员加入列表并把一些数据同步到其节点中。</p>
+<p>失败检测：对于节点失败是很容易检测到的；而对于网络分裂或者脑裂情况，就会比较复杂一些。SnappyData通过UDP neighbor ping等机制进行多次检测，以确定疑似的失败是否是真正的失败。</p>
+<p>HA：SnappyData另一个高可用的地方表现在其Lead节点的HA，即可配置primary角色和standby角色。选举则根据分布式锁服务，先到的就是primary。</p>
+<h4 id="数据一致性"><a href="#数据一致性" class="headerlink" title="数据一致性"></a>数据一致性</h4><p>SnappyData提供了<strong>read committed</strong>和<strong>repeatable read</strong>两种事务隔离级别。在写入发生时，会对所有的副本加排他锁，这里有个假设就是很少出现不能获得排他写锁的情况，提交的时候会应用到所有的副本。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>到此为止，关于SnappyData的架构，基本就讲完了。我们后续会继续根据SnappyData的使用写一些应用类的博客。</p>
+<p>也欢迎大家加入<strong><a href="http://47.104.162.24/" target="_blank" rel="noopener">SnappyData专业中文社区</a></strong>和<strong>SnappyData中国用户组</strong>微信群进行交流。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><a href="https://www.snappydata.io/snappy-industrial" target="_blank" rel="noopener">SnappyData: Streaming,Transactions,and Interactive<br>Analytics in a Unified Engine</a></p>
+<p><a href="https://snappydatainc.github.io/snappydata/architecture/core_components/" target="_blank" rel="noopener">官方文档</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/" rel="next" title="SnappyData与TiDB,Spark,Flink的对比-1">
+                <i class="fa fa-chevron-left"></i> SnappyData与TiDB,Spark,Flink的对比-1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDk4MC8xMTUxNw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/snappydata.png"
+                alt="经营效率小队" />
+            
+              <p class="site-author-name" itemprop="name">经营效率小队</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/snappydata-cn/snappydata-cn.github.io" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:snappydata_cn@126.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://47.104.162.24/" title="SnappyData专业中文社区" target="_blank">SnappyData专业中文社区</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心组件"><span class="nav-number">1.</span> <span class="nav-text">核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说存储"><span class="nav-number">2.</span> <span class="nav-text">说存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#列表"><span class="nav-number">2.1.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DDL的扩展"><span class="nav-number">2.2.</span> <span class="nav-text">DDL的扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API及其他组件"><span class="nav-number">3.</span> <span class="nav-text">API及其他组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据流程"><span class="nav-number">4.</span> <span class="nav-text">数据流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData角色"><span class="nav-number">5.</span> <span class="nav-text">SnappyData角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合集群管理器"><span class="nav-number">6.</span> <span class="nav-text">混合集群管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#高并发"><span class="nav-number">6.1.</span> <span class="nav-text">高并发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态共享"><span class="nav-number">6.2.</span> <span class="nav-text">状态共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高可用"><span class="nav-number">6.3.</span> <span class="nav-text">高可用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据一致性"><span class="nav-number">6.4.</span> <span class="nav-text">数据一致性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">8.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">经营效率小队</span>
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+-->
+
+
+
+
+
+<!--
+<div class="powered-by">
+   <i class="fa fa-user-md"></i>
+      <span id="busuanzi_container_site_pv">
+      本站总访问量::<span id="busuanzi_value_site_pv"></span>
+      </span>
+  </div>
+
+  <div class="powered-by">
+   <i class="fa fa-user-md"></i>
+      <span id="busuanzi_container_site_uv">
+      本站访客数:<span id="busuanzi_value_site_uv"></span>
+      </span>
+  </div>
+
+-->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '4YN8bby3frKl1iKqNpPJmGFj-gzGzoHsz',
+        appKey: '4fLPhXtOQT78BGd1jSX31cEK',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
