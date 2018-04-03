@@ -5,7 +5,7 @@ date: 2018-03-19 11:56:33
 
 ### 如何交流？
 
-[SnappyData专业中文社区](http://47.104.162.24/)
+[SnappyData专业中文社区](http://snappydata.club/)
 
 **微信群：** SnappyData中国用户组
 
