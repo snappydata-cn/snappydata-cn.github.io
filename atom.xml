@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-23T03:17:37.000Z</updated>
+  <updated>2018-03-26T08:04:23.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2018/03/26/%E6%9C%AA%E5%91%BD%E5%90%8D/"/>
+    <id>http://yoursite.com/2018/03/26/未命名/</id>
+    <published>2018-03-26T08:01:40.000Z</published>
+    <updated>2018-03-26T08:04:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Spark的设计目的是高吞吐和批处理；它不能执行点度、点更新等处理，且数据不可变，要想做到数据共享，需要从外部加载数据源。</p><p>SnappyData扩展Spark目的是做个实时计算的数据平台：<br>增加可变性；<br>允许跨应用程序共享数据；<br>同时满足点查和多维聚合操作。</p><p>Druid存储有要求：时间戳、维度、metric。<br>Druid支持预聚合，通过roll-up将业务上最细粒度的维度做聚合。例如查询的范围是1分钟，那么写入时就把时间戳放到不同的窗口上，实时聚合。牺牲了明细数据，降低了存储容量。</p><p>Druid实时写入不支持exactly once语义的写入，批量写入支持。</p><p>Druid的查询原生支持json，但是做了sql的有限扩展。</p><p>Druid不支持join，都是提前打成宽表，将维度和结果放到一行里边。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Spark的设计目的是高吞吐和批处理；它不能执行点度、点更新等处理，且数据不可变，要想做到数据共享，需要从外部加载数据源。&lt;/p&gt;
+&lt;p&gt;SnappyData扩展Spark目的是做个实时计算的数据平台：&lt;br&gt;增加可变性；&lt;br&gt;允许跨应用程序共享数据；&lt;br&gt;同时满足点查
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>SnappyData架构</title>
@@ -66,9 +88,9 @@
     <link href="http://yoursite.com/2018/03/19/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E4%B8%AD%E6%96%87%E5%8D%9A%E5%AE%A2/"/>
     <id>http://yoursite.com/2018/03/19/欢迎来到中文博客/</id>
     <published>2018-03-19T04:12:57.000Z</published>
-    <updated>2018-03-20T02:06:12.000Z</updated>
+    <updated>2018-04-03T03:07:41.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="关于SnappyData"><a href="#关于SnappyData" class="headerlink" title="关于SnappyData"></a>关于SnappyData</h3><p><strong>SnappyData</strong>是一个<strong>开源的</strong>、<strong>内存分布式**</strong>存储<strong>与</strong>计算引擎<strong>，提供</strong>实时的<strong>、</strong>HTAP(OLTP+OLAP)**场景的解决方案。</p><p>它融合了<strong>Apache Spark</strong>与<strong>GemFire</strong>数据库，以多种数据模型(行表+列表)提供复杂的、实时的、多维度的OLAP分析与OLTP事务处理，完全支持<strong>标准SQL</strong>与<strong>Spark SQL</strong>。</p><p>分析人员只需通过SQL便可对实时数据进行<strong>低延迟</strong>与<strong>高准确性</strong>(对<strong>乱序的处理与Retraction的支持</strong>)的分析工作。</p><a id="more"></a><h3 id="SnappyData中文社区"><a href="#SnappyData中文社区" class="headerlink" title="SnappyData中文社区"></a>SnappyData中文社区</h3><p><a href="http://47.104.162.24/" target="_blank" rel="noopener">SnappyData专业中文社区</a></p><h3 id="博客支持"><a href="#博客支持" class="headerlink" title="博客支持"></a>博客支持</h3><p>该中文博客由<code>美团旅行-住宿事业部-经营效率组</code>维护，并不定期发布<strong>SnappyData</strong>相关博客。</p><h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><p><a href="https://www.snappydata.io/community" target="_blank" rel="noopener">SnappyData官方社区</a></p><p><a href="https://www.snappydata.io/blog" target="_blank" rel="noopener">SnappyData官方博客</a></p><p><a href="https://snappydatainc.github.io/snappydata/" target="_blank" rel="noopener">SnappyData官方文档</a></p><p><a href="https://www.snappydata.io/" target="_blank" rel="noopener">SnappyData官方网站</a></p><p><a href="http://47.104.162.24/" target="_blank" rel="noopener">SnappyData专业中文社区</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="关于SnappyData"><a href="#关于SnappyData" class="headerlink" title="关于SnappyData"></a>关于SnappyData</h3><p><strong>SnappyData</strong>是一个<strong>开源的</strong>、<strong>内存分布式**</strong>存储<strong>与</strong>计算引擎<strong>，提供</strong>实时的<strong>、</strong>HTAP(OLTP+OLAP)**场景的解决方案。</p><p>它融合了<strong>Apache Spark</strong>与<strong>GemFire</strong>数据库，以多种数据模型(行表+列表)提供复杂的、实时的、多维度的OLAP分析与OLTP事务处理，完全支持<strong>标准SQL</strong>与<strong>Spark SQL</strong>。</p><p>分析人员只需通过SQL便可对实时数据进行<strong>低延迟</strong>与<strong>高准确性</strong>(对<strong>乱序的处理与Retraction的支持</strong>)的分析工作。</p><a id="more"></a><h3 id="SnappyData中文社区"><a href="#SnappyData中文社区" class="headerlink" title="SnappyData中文社区"></a>SnappyData中文社区</h3><p><a href="http://snappydata.club/" target="_blank" rel="noopener">SnappyData专业中文社区</a></p><h3 id="博客支持"><a href="#博客支持" class="headerlink" title="博客支持"></a>博客支持</h3><p>该中文博客由<code>美团旅行-住宿事业部-经营效率组</code>维护，并不定期发布<strong>SnappyData</strong>相关博客。</p><h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><p><a href="https://www.snappydata.io/community" target="_blank" rel="noopener">SnappyData官方社区</a></p><p><a href="https://www.snappydata.io/blog" target="_blank" rel="noopener">SnappyData官方博客</a></p><p><a href="https://snappydatainc.github.io/snappydata/" target="_blank" rel="noopener">SnappyData官方文档</a></p><p><a href="https://www.snappydata.io/" target="_blank" rel="noopener">SnappyData官方网站</a></p><p><a href="http://snappydata.club/" target="_blank" rel="noopener">SnappyData专业中文社区</a></p>]]></content>
     
     <summary type="html">
     

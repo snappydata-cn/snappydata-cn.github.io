@@ -271,6 +271,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/未命名/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="经营效率小队">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/snappydata.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SnappyData中文博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/未命名/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T16:01:40+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/03/26/未命名/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/26/未命名/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  242
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Spark的设计目的是高吞吐和批处理；它不能执行点度、点更新等处理，且数据不可变，要想做到数据共享，需要从外部加载数据源。</p>
+<p>SnappyData扩展Spark目的是做个实时计算的数据平台：<br>增加可变性；<br>允许跨应用程序共享数据；<br>同时满足点查和多维聚合操作。</p>
+<p>Druid存储有要求：时间戳、维度、metric。<br>Druid支持预聚合，通过roll-up将业务上最细粒度的维度做聚合。例如查询的范围是1分钟，那么写入时就把时间戳放到不同的窗口上，实时聚合。牺牲了明细数据，降低了存储容量。</p>
+<p>Druid实时写入不支持exactly once语义的写入，批量写入支持。</p>
+<p>Druid的查询原生支持json，但是做了sql的有限扩展。</p>
+<p>Druid不支持join，都是提前打成宽表，将维度和结果放到一行里边。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/SnappyData架构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -876,7 +1042,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -922,13 +1088,13 @@
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="https://plus.google.com/yourname" target="_blank" title="Google">
+                    <a href="https://groups.google.com/forum/#!forum/snappydata-user" target="_blank" title="Google">
                       
                         <i class="fa fa-fw fa-google"></i>Google</a>
                   </span>
                 
                   <span class="links-of-author-item">
-                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                    <a href="https://twitter.com/SnappyData" target="_blank" title="Twitter">
                       
                         <i class="fa fa-fw fa-twitter"></i>Twitter</a>
                   </span>
@@ -949,7 +1115,7 @@
               <ul class="links-of-blogroll-list">
                 
                   <li class="links-of-blogroll-item">
-                    <a href="http://47.104.162.24/" title="SnappyData专业中文社区" target="_blank">SnappyData专业中文社区</a>
+                    <a href="http://snappydata.club/" title="SnappyData专业中文社区" target="_blank">SnappyData专业中文社区</a>
                   </li>
                 
               </ul>
