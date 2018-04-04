@@ -101,17 +101,20 @@
 
 
 
-<meta name="description" content="SnappyData是什么？SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234">
+<meta name="description" content="OLAP简介On-Line Analytical Processing，简称OLAP，即联机分析处理，其主要的功能在于方便大规模数据分析及统计计算，对决策提供参考和支持。 OLAP发展到现在的阶段，很多的查询分析需求具有以下4种显著的特点： 12341、数据量大2、高速响应3、灵活交互4、多维分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SnappyData与TiDB,Spark,Flink的对比-1">
-<meta property="og:url" content="http://yoursite.com/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/index.html">
+<meta property="og:title" content="SnappyData与Presto,Druid,Kylin,ES的对比-2">
+<meta property="og:url" content="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/index.html">
 <meta property="og:site_name" content="SnappyData中文博客">
-<meta property="og:description" content="SnappyData是什么？SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234">
+<meta property="og:description" content="OLAP简介On-Line Analytical Processing，简称OLAP，即联机分析处理，其主要的功能在于方便大规模数据分析及统计计算，对决策提供参考和支持。 OLAP发展到现在的阶段，很多的查询分析需求具有以下4种显著的特点： 12341、数据量大2、高速响应3、灵活交互4、多维分析">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-20T02:09:09.000Z">
+<meta property="og:image" content="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/OLAP-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/OLAP-2.png">
+<meta property="og:updated_time" content="2018-04-04T10:29:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SnappyData与TiDB,Spark,Flink的对比-1">
-<meta name="twitter:description" content="SnappyData是什么？SnappyData是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。 分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。 SnappyData的特性1234">
+<meta name="twitter:title" content="SnappyData与Presto,Druid,Kylin,ES的对比-2">
+<meta name="twitter:description" content="OLAP简介On-Line Analytical Processing，简称OLAP，即联机分析处理，其主要的功能在于方便大规模数据分析及统计计算，对决策提供参考和支持。 OLAP发展到现在的阶段，很多的查询分析需求具有以下4种显著的特点： 12341、数据量大2、高速响应3、灵活交互4、多维分析">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/OLAP-1.png">
 
 
 
@@ -141,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/"/>
 
 
 
 
 
-  <title>SnappyData与TiDB,Spark,Flink的对比-1 | SnappyData中文博客</title>
+  <title>SnappyData与Presto,Druid,Kylin,ES的对比-2 | SnappyData中文博客</title>
   
 
 
@@ -274,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="经营效率小队">
@@ -291,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SnappyData与TiDB,Spark,Flink的对比-1</h1>
+          <h1 class="post-title" itemprop="name headline">SnappyData与Presto,Druid,Kylin,ES的对比-2</h1>
         
 
         <div class="post-meta">
@@ -303,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T16:55:31+08:00">
-                2018-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-04T12:07:31+08:00">
+                2018-04-04
               </time>
             
 
@@ -344,8 +347,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/19/SnappyData与TiDB,Spark,Flink的对比-1/" itemprop="commentCount"></span>
+                <a href="/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -372,7 +375,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  913
+                  2,288
                 </span>
               
 
@@ -388,7 +391,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  8
                 </span>
               
             </div>
@@ -409,14 +412,47 @@
       
 
       
-        <h3 id="SnappyData是什么？"><a href="#SnappyData是什么？" class="headerlink" title="SnappyData是什么？"></a>SnappyData是什么？</h3><p><strong>SnappyData</strong>是一个开源的内存分布式存储与计算引擎，提供实时的、HTAP(OLTP+OLAP)场景的解决方案，融合了Apache Spark与GemFire数据库，以多种数据模型提供复杂的、实时的、多维度的OLAP分析，完全支持标准SQL与Spark SQL。</p>
-<p>分析人员只需通过SQL便可对实时数据进行低延迟且高准确性的分析工作。</p>
-<h3 id="SnappyData的特性"><a href="#SnappyData的特性" class="headerlink" title="SnappyData的特性"></a>SnappyData的特性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、分布式存储+计算引擎</span><br><span class="line">2、完全基于内存</span><br><span class="line">3、融合了Gemfire与Apache Spark的特性</span><br><span class="line">4、支持行存，且支持列存(压缩)</span><br><span class="line">5、对行存与列存都支持DML操作</span><br><span class="line">6、区分开源版本与闭源版本(支持off-heap与AQP功能)</span><br><span class="line">7、存储时可指定关联关系，使得数据本地化(colocate)，多表join性能是Spark的20倍+</span><br><span class="line">8、完全兼容Spark，支持标准SQL与Spark SQL</span><br><span class="line">9、对实时数据的处理只需用标准SQL或Spark SQL即可，同时由于其存储明细数据，使得对实时数据的处理既支持乱序又支持Retraction，非常适合ad-hoc类查询</span><br></pre></td></tr></table></figure>
+        <h2 id="OLAP简介"><a href="#OLAP简介" class="headerlink" title="OLAP简介"></a>OLAP简介</h2><p>On-Line Analytical Processing，简称OLAP，即联机分析处理，其主要的功能在于方便大规模数据分析及统计计算，对决策提供参考和支持。</p>
+<p>OLAP发展到现在的阶段，很多的查询分析需求具有以下4种显著的特点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、数据量大</span><br><span class="line">2、高速响应</span><br><span class="line">3、灵活交互</span><br><span class="line">4、多维分析</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/OLAP-1.png" alt="现代OLAP特点"></p>
 <a id="more"></a>
-<h3 id="与TiDB对比"><a href="#与TiDB对比" class="headerlink" title="与TiDB对比"></a>与TiDB对比</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TiDB是基于KV的行存；SnappyData支持列存。</span><br><span class="line">TiDB更适合OLTP事务；SnappyData更适合OLAP分析。</span><br><span class="line">TiDB存储于RocksDB；SnappyData完全内存，且支持overflow。</span><br><span class="line">TiDB支持DQL、DML与DDL；SnappyData也支持DQL、DML与DDL。</span><br><span class="line">TiDB支持分布式的多副本；SnappyData也支持多副本。</span><br><span class="line">TiSpark基于Spark处理复杂SQL；SnappyData存储采用与Spark一样的存储格式，省去加载的时间，同时支持colocate，使得join时性能提升2个级别</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData相比于Spark的优势"><a href="#SnappyData相比于Spark的优势" class="headerlink" title="SnappyData相比于Spark的优势"></a>SnappyData相比于Spark的优势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Spark的RDD不可变；SnappyData可变(Gemfire)，因此SnappyData的数据支持DML</span><br><span class="line">Spark需要从外部数据源加载数据；SnappyData不需要加载，存储格式与Spark的DataFrame一致</span><br><span class="line">Spark计算时基于内存；SnappyData计算转换为Spark Job，也是基于内存(不是所有的SQL都走Spark Job)</span><br><span class="line">Spark对于多表join，涉及跨机器join，性能受限；SnappyData存储支持表间colocate，join发生在机器本地，性能提高</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData相比于Flink的优势"><a href="#SnappyData相比于Flink的优势" class="headerlink" title="SnappyData相比于Flink的优势"></a>SnappyData相比于Flink的优势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Flink流处理的API是DataStream，学习成本较高；SnappyData API支持标准SQL与Spark SQL，学习成本较低。</span><br><span class="line">Flink的Stream SQL目前支持功能有限，尤其是流表join与双流join</span><br><span class="line">Flink在单流的汇总功能强大，双流join欠缺准确性；SnappyData支持多个表的join，且准确性极高</span><br><span class="line">Flink的处理延时极低(毫秒级)；SnappyData处理延迟同样极低(毫秒级)</span><br><span class="line">Flink处理一个需求就需要单独一个job；SnappyData简单很多，一个SQL对应一个需求，效率极高</span><br><span class="line">Flink支持乱序及Retraction，但是已经发出的结果不能更改；SnappyData由于存储明细数据，因此也支持乱序与Retraction，同时对于已经发出的结果，同样可以更改(客户端只需再次调用一遍SQL即可)</span><br><span class="line">Flink实时处理不能很好的关联大量的历史数据；SnappyData随意关联历史数据，通过SQL不但可以查询实时数据，同样可查询历史数据</span><br></pre></td></tr></table></figure>
-<h3 id="SnappyData的劣势"><a href="#SnappyData的劣势" class="headerlink" title="SnappyData的劣势"></a>SnappyData的劣势</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、尽管列存支持压缩，从而大幅度减少数据量，同时可以横向扩展，但是内存空间的使用仍然使得成本较高</span><br><span class="line">2、存储+计算都在内存进行，且Spark Job的运行基于JVM，要注意防止内存不足的情况出现</span><br><span class="line">3、社区不够活跃</span><br><span class="line">4、对于PB及以上的数据规模，即使横向扩展也不太适合这种规模</span><br></pre></td></tr></table></figure>
+<p>根据存储类型，OLAP又分为ROLAP(RelationalOLAP)、MOLAP(MultidimensionalOLAP)以及HOLAP(HybridOLAP)。</p>
+<p>根据处理类型，OLAP又分为MPP架构、搜索引擎架构和预处理架构。</p>
+<p>在开源领域OLAP的解决方案中，包括了诸如Presto、SparkSQL、Impala以及SnappyData等MPP架构和ROLAP的引擎；也包括了Druid和Kylin等预处理架构和MOLAP的引擎；同时还包含了ES这种搜索引擎;除此之外，还有ClickHouse以及IndexR这种列式数据库用于OLAP分析。</p>
+<p>下面我们就这些开源引擎，从上述中以下几个方面进行对比：<strong>数据规模</strong>、<strong>查询性能</strong>、<strong>灵活性</strong>、<strong>易用性</strong>、<strong>处理方式</strong>以及<strong>实时性</strong>进行对比。</p>
+<h2 id="分布式开源OLAP引擎"><a href="#分布式开源OLAP引擎" class="headerlink" title="分布式开源OLAP引擎"></a>分布式开源OLAP引擎</h2><h3 id="基于MPP架构的ROLAP引擎"><a href="#基于MPP架构的ROLAP引擎" class="headerlink" title="基于MPP架构的ROLAP引擎"></a>基于MPP架构的ROLAP引擎</h3><p>Presto、Impala以及Spark SQL，都是利用关系模型来处理OLAP查询，通过并发来提高查询性能。</p>
+<p>这类引擎的优点和缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、支持的数据规模大(非存储引擎)；</span><br><span class="line">2、灵活性高，随意查询数据；</span><br><span class="line">3、易用性强，支持标准SQL以及多表join和窗口函数；</span><br><span class="line">4、处理方式简单，无需预处理，全部后处理，没有冗余数据。</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、性能较差，当查询复杂度高且数据量大时，可能分钟级别的响应。同时其不是存储引擎，因此没有本地存储，当join时shuffle开销大，性能差。</span><br><span class="line">2、实时性较差，不支持数据的实时导入，偏离线处理。</span><br></pre></td></tr></table></figure>
+<p>我们以Spark SQL为例来说明，由于其本身只是个计算引擎，而非存储引擎，导致其需要从外部加载数据，使得数据的实时性得不到保证；同时当涉及多表join时，其查询性能很难得到秒级的响应。</p>
+<p>因此，其实时性和查询性能较弱，所以只适合那些对实时性要求不是很高，但灵活性很强的需要多表join的ad-hoc类查询以及需求变化较频繁的查询。</p>
+<p>目前开源社区出现了一种依托Spark SQL，同时自己存储数据的一类OLAP引擎，比如TiSpark以及SnappyData。</p>
+<p>关于TiSpark项目，其虽然以TiKV为存储减少了数据加载的延迟，使得实时性可以得到保证，但是其在数据量较大时的join，查询响应依然得不到保证；同时对于窗口函数的分析不支持，部分adhoc需求也得不到有效保证。</p>
+<p>关于SnappyData，其也是个存储引擎，而且表join时通过数据存储本地化以及其他优化，有效将性能差、实时性差的缺点避免掉，我们会在最后就SnappyData做个总结。</p>
+<h3 id="预计算引擎与MOLAP"><a href="#预计算引擎与MOLAP" class="headerlink" title="预计算引擎与MOLAP"></a>预计算引擎与MOLAP</h3><p>Kylin是完全的预计算引擎，通过枚举所有维度的组合，建立各种Cube进行提前聚合，以HBase为基础的OLAP引擎。</p>
+<p>Druid则是轻量级的提前聚合(roll-up)，同时根据倒排索引以及bitmap提高查询效率的时间序列数据和存储引擎。</p>
+<p>Kylin的优缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、支持数据规模超大(HBase)</span><br><span class="line">2、易用性强，支持标准SQL</span><br><span class="line">3、性能很高，查询速度很快</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、灵活性较弱，不支持adhoc查询；且没有二级索引，过滤时性能一般；不支持join以及对数据的更新。</span><br><span class="line">2、处理方式复杂，需要定义Cube预计算；当维度超过20个时，存储可能会爆炸式增长；且无法查询明细数据了；维护复杂</span><br><span class="line">3、实时性很差，很多时候只能查询前一天或几个小时前的数据。</span><br></pre></td></tr></table></figure>
+<p>Druid的优缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、支持的数据规模大(本地存储+DeepStorage--HDFS)</span><br><span class="line">2、性能高，列存压缩，预聚合加上倒排索引以及位图索引，秒级查询</span><br><span class="line">3、实时性高，可以通过kafka实时导入数据</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、灵活性适中，虽然维度之间随意组合，但不支持adhoc查询，不能自由组合查询，且丢失了明细数据</span><br><span class="line">2、易用性较差，不支持join，不支持更新，sql支持很弱(有些插件类似于pinot的PQL语言)，只能JSON格式查询；对于去重操作不能精准去重。</span><br><span class="line">3、处理方式复杂，需要流处理引擎将数据join成宽表，维护相对复杂；对内存要求较高。</span><br></pre></td></tr></table></figure>
+<p>因此，Kylin适合对实时数据需求不高，但响应时间较高的查询，且维度较多，需求较为固定的特定查询；而不适合实时性要求高的adhoc类查询。</p>
+<p>Druid适合那种数据量大，对实时性要求高且响应时间短，以及维度较少且需求固定的简单聚合类查询(sum，count，TopN)，多以storm和flink组合进行预处理；而不适合需要join、update和支持SQL和窗口函数等复杂的adhoc查询。</p>
+<p>如果分析人员想用SQL进行复杂的分析操作，那么Druid不适合。</p>
+<h3 id="搜索引擎架构"><a href="#搜索引擎架构" class="headerlink" title="搜索引擎架构"></a>搜索引擎架构</h3><p>ES是典型的搜索引擎类的架构系统，在入库时将数据转换为倒排索引，采用Scatter-Gather计算模型提高查询性能。对于搜索类的查询效果较好，但当数据量较大时，对于Scan类和聚合类为主的查询性能较低。</p>
+<p>ES的优缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、性能较高，支持倒排索引和各种过滤后的聚合查询。</span><br><span class="line">2、实时性强，在文档上建立完索引后，立刻可以查询。</span><br><span class="line">3、处理方式简单，无需预处理</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、支持的数据规模较小，高并发不理想。</span><br><span class="line">2、灵活性差，不支持复杂的adhoc查询</span><br><span class="line">3、易用性差，不支持SQL；DSL成本高，且不能精准去重。</span><br></pre></td></tr></table></figure>
+<p>因此，ES适合那种全文检索，且数据规模较少时过滤条件很多的聚合查询，并发度也不大的场景。</p>
+<p>同样，如果分析人员想用SQL分析，那么也不适合ES。</p>
+<h3 id="纯列存OLAP"><a href="#纯列存OLAP" class="headerlink" title="纯列存OLAP"></a>纯列存OLAP</h3><p>ClickHouse是个列存数据库，保存原始明细数据，通过MergeTree使得数据存储本地化来提高性能，是个单机版超高性能的数据库。</p>
+<p>ClickHouse的优缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、性能高，列存压缩比高，通过索引实现秒级响应</span><br><span class="line">2、实时性强，支持kafka导入</span><br><span class="line">3、处理方式简单，无需预处理，保存明细数据</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、数据规模一般</span><br><span class="line">2、灵活性差，不支持任意的adhoc查询，join的支持不好。</span><br><span class="line">3、易用性较弱，SQL语法不标准，不支持窗口函数等；维护成本高</span><br></pre></td></tr></table></figure>
+<p>因此，ClickHouse适合数据规模不大情况下的单机且单表的数据分析。实际场景有待检验。</p>
+<h3 id="SnappyData"><a href="#SnappyData" class="headerlink" title="SnappyData"></a>SnappyData</h3><p>SnappyData是个计算与存储引擎，全内存、行列混合存储且完全不需预处理，支持SQL与Spark SQL，兼顾MPP的特点且colocate特性使得数据本地化，支持join、列表的update以及窗口函数等任意的adhoc查询。</p>
+<p>SnappyData的优缺点如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">优点：</span><br><span class="line">1、性能高，列存压缩+全内存，数据状态共享，秒级查询</span><br><span class="line">2、实时性强，支持kafka的stream table以及实时导入</span><br><span class="line">3、处理方式简单，无需预处理，保存明细数据，数据本地存储</span><br><span class="line">4、灵活性高，是个sql数据库，支持任意字段的查询、update以及窗口函数和复杂的adhoc查询</span><br><span class="line">5、易用性强，支持标准SQL和Spark SQL，精准去重，支持各种分许函数</span><br><span class="line"></span><br><span class="line">缺点：</span><br><span class="line">1、数据规模中等，由于全内存导致成本较高，且需要关注GC问题</span><br><span class="line">2、维护成本高</span><br></pre></td></tr></table></figure>
+<p>因此，SnappyData适合那种数据规模中等(PB以下)，需求变化加多，实时性要求较高、响应时间较短且复杂的窗口函数类查询；同时适合查询明细数据以及探索式的adhoc查询。</p>
+<p>如果数据规模不大，且希望找到一种简单易用且实时性要求高的多维OLAP引擎，最重要的是可供分析人员使用的SQL的引擎，那么SnappyData比较适合。前提是需要在成本与效率之间做个平衡，SQL固然能提高开发效率，但内存较大的服务器成本也确实相对较高。</p>
+<h2 id="引擎对比"><a href="#引擎对比" class="headerlink" title="引擎对比"></a>引擎对比</h2><p><img src="/2018/04/04/SnappyData与Presto-Druid-Kylin-ES的对比-2/OLAP-2.png" alt="对比"></p>
 
       
     </div>
@@ -441,8 +477,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/19/欢迎来到中文博客/" rel="next" title="欢迎来到SnappyData中文博客">
-                <i class="fa fa-chevron-left"></i> 欢迎来到SnappyData中文博客
+              <a href="/2018/03/21/SnappyData架构/" rel="next" title="SnappyData架构">
+                <i class="fa fa-chevron-left"></i> SnappyData架构
               </a>
             
           </div>
@@ -450,10 +486,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/21/SnappyData架构/" rel="prev" title="SnappyData架构">
-                SnappyData架构 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -660,7 +692,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData是什么？"><span class="nav-number">1.</span> <span class="nav-text">SnappyData是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData的特性"><span class="nav-number">2.</span> <span class="nav-text">SnappyData的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与TiDB对比"><span class="nav-number">3.</span> <span class="nav-text">与TiDB对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData相比于Spark的优势"><span class="nav-number">4.</span> <span class="nav-text">SnappyData相比于Spark的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData相比于Flink的优势"><span class="nav-number">5.</span> <span class="nav-text">SnappyData相比于Flink的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData的劣势"><span class="nav-number">6.</span> <span class="nav-text">SnappyData的劣势</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OLAP简介"><span class="nav-number">1.</span> <span class="nav-text">OLAP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式开源OLAP引擎"><span class="nav-number">2.</span> <span class="nav-text">分布式开源OLAP引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于MPP架构的ROLAP引擎"><span class="nav-number">2.1.</span> <span class="nav-text">基于MPP架构的ROLAP引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预计算引擎与MOLAP"><span class="nav-number">2.2.</span> <span class="nav-text">预计算引擎与MOLAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索引擎架构"><span class="nav-number">2.3.</span> <span class="nav-text">搜索引擎架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯列存OLAP"><span class="nav-number">2.4.</span> <span class="nav-text">纯列存OLAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SnappyData"><span class="nav-number">2.5.</span> <span class="nav-text">SnappyData</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎对比"><span class="nav-number">3.</span> <span class="nav-text">引擎对比</span></a></li></ol></div>
             
 
           </div>
