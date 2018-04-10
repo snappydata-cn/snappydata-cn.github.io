@@ -110,7 +110,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/04/09/Google-Shasta解读/shasta_architecture.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/09/Google-Shasta解读/RVL.png">
-<meta property="og:updated_time" content="2018-04-10T08:16:20.000Z">
+<meta property="og:updated_time" content="2018-04-10T08:18:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Google Shasta解读">
 <meta name="twitter:description" content="Shasta系统架构Google内部广告业务的数据分析，需要满足3方面的需求： 1231、查询的延迟要低2、查询的表达要简单3、查询的结果要及时更新">
@@ -439,7 +439,7 @@
 <h2 id="TableCache"><a href="#TableCache" class="headerlink" title="TableCache"></a>TableCache</h2><p>TableCache是F1引擎和F1存储之间的中间件缓存层。通过对TableCache指定元组(table,RootId,timestamp)来加速查询。</p>
 <p>其中，(table,RootId)将F1中的数据行分成了很多的分片；其次数据是懒加载且cache也是分片的；最后timestamp提供多版本的数据，同时根据F1 change history日志进行更新。</p>
 <p>事实上，Shasta的低延迟，主要原因还是在于TableCache的应用，通过将数据以多版本的快照形式存在分布式的缓存中以及数据与计算的本地化，实现了对数据的快速访问。</p>
-<h2 id="UDF服务器"><a href="#UDF服务器" class="headerlink" title="UDF服务器"></a>UDF服务器</h2><p>UDF在SQL中很普通，但是F1中却是独立部署的，这样的好处不但可以服用代码，还可以减少F1引擎的GC压力，同时可以设置不同的并行度。</p>
+<h2 id="UDF服务器"><a href="#UDF服务器" class="headerlink" title="UDF服务器"></a>UDF服务器</h2><p>UDF在SQL中很普通，但是F1中却是独立部署的，这样的好处不但可以复用代码，还可以减少F1引擎的GC压力，同时可以设置不同的并行度。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们从Shasta的论文可以看到，实时数据仓库的实现，如果采用预计算的方式，那么灵活性就不能满足；通过分布式的Cache以及join数据的本地化，使得后计算也成为可能。</p>
 <p>SnappyData的实现思路与Shasta还是有相似之处，内存+本地化存储明细数据，使得完全的后计算既可以支持灵活多变的SQL需求，也可以通过SQL提高效率，还可以通过进一步的优化实现复杂分析下的低延迟的需求。</p>
 
