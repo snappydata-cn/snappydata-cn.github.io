@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-10T08:18:55.000Z</updated>
+  <updated>2018-04-28T08:50:04.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SnappyData在生产中的应用-1</title>
+    <link href="http://yoursite.com/2018/04/28/SnappyData%E5%9C%A8%E7%94%9F%E4%BA%A7%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-1/"/>
+    <id>http://yoursite.com/2018/04/28/SnappyData在生产中的应用-1/</id>
+    <published>2018-04-28T03:22:21.000Z</published>
+    <updated>2018-04-28T08:50:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一、建表原则"><a href="#一、建表原则" class="headerlink" title="一、建表原则"></a>一、建表原则</h2><p>SnappyData中的表可以简单分为维度表与事实表两类，除此之外还有流表、采样表与临时表等，这里只讨论维度表与事实表，用于<strong>实时的、自由的、极速的、探索性</strong>的OLAP分析(Realtime-OLAP)。</p><p>通常建议将数据量较少的(万级别以下)维度表设置为replicated的行表，这样维度表会在每个节点中分别存一份。但是如果遇到维度表比较大且也会发生变化时(十万、百万级别以上)，建议将表创建为列表，hash分区键指定为与事实表相同的列，例如goods_id列，此时的维度表就变为了事实表。</p><p>事实表的数据量通常较大，一般设置为列表，hash分区键指定为与维度表相同的列，且明确指出与维度表进行colocate存储。目前列表上暂不支持对分区键的二级list分区或range分区。</p><a id="more"></a><h2 id="二、建表DDL语句"><a href="#二、建表DDL语句" class="headerlink" title="二、建表DDL语句"></a>二、建表DDL语句</h2><h3 id="1、维度表转事实表goods表"><a href="#1、维度表转事实表goods表" class="headerlink" title="1、维度表转事实表goods表"></a>1、维度表转事实表goods表</h3><p>由于维度表数据量接近300万，且字段较多，因此占用的内存空间较大，并不适合设计成每个节点都存储一份的维度表，所以将原维度表设计为一张事实表，按照goods_id进行hash分区：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/goods.png" alt=""></p><h3 id="2、事实表order表"><a href="#2、事实表order表" class="headerlink" title="2、事实表order表"></a>2、事实表order表</h3><p>事实表的数据量较大，这里以订单表为例，同样按照goods_id进行hash分区，但要指定和goods表进行colocate存储：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/order.png" alt=""></p><h3 id="3、维度表brand表"><a href="#3、维度表brand表" class="headerlink" title="3、维度表brand表"></a>3、维度表brand表</h3><p>可以将只有几千条的brand表设计为replicated的行表，这样brand表就会在每个节点都存储一份：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/brand.png" alt=""></p><h2 id="三、数据实时导入"><a href="#三、数据实时导入" class="headerlink" title="三、数据实时导入"></a>三、数据实时导入</h2><p>SnappyData支持流表，允许接入kafka进行实时导入。但是对kafka的版本有要求。</p><p>我们的业务需要对表中的数据进行update更新操作，因此通过flink进行实时ETL或窗口类处理后，导入到SnappyData的维度表与事实表。</p><p>当进行纯粹的insert操作时，延迟在毫秒级；当需要进行update操作时，由于数据量较大，为避免lead的压力过大、避免server处理频繁的update操作，因此在flink中实现SQL的<strong>批量更新</strong>，延迟在1分钟，但更新效率极高，这也是在低延迟和高吞吐之间进行了一次取舍。</p><h2 id="四、查询类型"><a href="#四、查询类型" class="headerlink" title="四、查询类型"></a>四、查询类型</h2><p>可以将查询分为3类：单表查询；维度表与事实表join；事实表与事实表join。</p><h3 id="1、单表查询"><a href="#1、单表查询" class="headerlink" title="1、单表查询"></a>1、单表查询</h3><p>进行单表查询时，可以对表中任何一个字段进行任何类型的SQL操作，例如投影、选择、链接等，即可以对数据进行自由、极速的探索性ad-hoc类查询。</p><p>我们以订单表为例，查看过去7天的订单状态分布情况：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/sql.png" alt=""></p><p>可以看到，在一个上亿记录的表上进行任意字段的聚合操作，延迟在毫秒级。</p><h3 id="2、事实表与维度表join查询-流批join"><a href="#2、事实表与维度表join查询-流批join" class="headerlink" title="2、事实表与维度表join查询(流批join)"></a>2、事实表与维度表join查询(流批join)</h3><p>我们将goods表和brand表进行join，goods表是随着时间实时变化的，因此可以看作事实表，而brand基本不变，且是replicated的行表，因此看作维度表：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/batch_stream_join.png" alt=""></p><p>可以看到，查询在毫秒级完成。</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/batch_stream_join_plan.png" alt=""></p><p>再看其执行计划，可以看到SnappyHashJoin,即两个表的join时，先在节点本地进行join，这样的效率比跨节点广播效率高的多。</p><h3 id="3、事实表与事实表join查询-双流join"><a href="#3、事实表与事实表join查询-双流join" class="headerlink" title="3、事实表与事实表join查询(双流join)"></a>3、事实表与事实表join查询(双流join)</h3><p>这里我们举3个例子，其中既包含了涉及子查询，也包含了双流join与维度表join，也包括了自定义UDF。</p><p>先看下整体的查询耗时情况：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/生产--耗时1.png" alt=""></p><p>生产上的查询基本不到1s中就可以查询到，数据量从几亿到几十亿的join。</p><p>再看下具体的SQL执行情况。</p><h4 id="3-1、双流join-维度表join"><a href="#3-1、双流join-维度表join" class="headerlink" title="3.1、双流join+维度表join"></a>3.1、双流join+维度表join</h4><p>我们先看下2个事实表与1个维度表的join情况：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/实时1.png" alt=""></p><p>耗时在1秒内，数据量为1.5亿，聚合字段为非分区键。</p><h4 id="3-2、子查询多表join"><a href="#3-2、子查询多表join" class="headerlink" title="3.2、子查询多表join"></a>3.2、子查询多表join</h4><p>另一个例子是涉及到了子查询，且SQL中包含了各种内置函数以及窗口函数：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/实时2.png" alt=""></p><p>在10亿条数据的表上进行复杂的SQL查询，耗时0.4s。</p><p>其部分查询计划如下：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/实时4.png" alt=""></p><p>由于存在子集合，因此子集合数据会广播出去，效率没有本地join高。但由于广播的数据较小，因此查询效率并未受到太多影响。在设计查询SQL时，应尽量避免子集合，实在没办法避免时，应选择将较小的表作为子集合广播。</p><h4 id="3-3、UDF后的join"><a href="#3-3、UDF后的join" class="headerlink" title="3.3、UDF后的join"></a>3.3、UDF后的join</h4><p>由于涉及到排序以及复杂的运算，因此为了更高效的执行SQL，因此实现了自定义UDF函数。</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/实时6.png" alt=""></p><p>数据量在40亿，与其他事实表join的耗时在0.2s。</p><p>其执行计划完全是SnappyHashJoin，即本地操作且没有sort类操作：</p><p><img src="/2018/04/28/SnappyData在生产中的应用-1/实时7.png" alt=""></p><h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>这篇文章中涉及了如何创建表，以及几个需要注意的点：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、列表默认的partition数量为128，因此为了最大化的并行执行，需要根据集群规模设定每个表的partition数</span><br><span class="line">2、hash分区键的选择，应该尽量选择最常用的join列，且基数较大的列(至少超过partition数)</span><br><span class="line">3、尽可能的使得join本地执行</span><br><span class="line">4、业务复杂且涉及排序，尽可能自定义UDF提高效率</span><br></pre></td></tr></table></figure><p>之后的文章，我们会介绍如何利用监控界面在SnappyData中使用SQL进行优化，同时会涉及SQL优化的指导原则。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一、建表原则&quot;&gt;&lt;a href=&quot;#一、建表原则&quot; class=&quot;headerlink&quot; title=&quot;一、建表原则&quot;&gt;&lt;/a&gt;一、建表原则&lt;/h2&gt;&lt;p&gt;SnappyData中的表可以简单分为维度表与事实表两类，除此之外还有流表、采样表与临时表等，这里只讨论维度表与事实表，用于&lt;strong&gt;实时的、自由的、极速的、探索性&lt;/strong&gt;的OLAP分析(Realtime-OLAP)。&lt;/p&gt;
+&lt;p&gt;通常建议将数据量较少的(万级别以下)维度表设置为replicated的行表，这样维度表会在每个节点中分别存一份。但是如果遇到维度表比较大且也会发生变化时(十万、百万级别以上)，建议将表创建为列表，hash分区键指定为与事实表相同的列，例如goods_id列，此时的维度表就变为了事实表。&lt;/p&gt;
+&lt;p&gt;事实表的数据量通常较大，一般设置为列表，hash分区键指定为与维度表相同的列，且明确指出与维度表进行colocate存储。目前列表上暂不支持对分区键的二级list分区或range分区。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="业务应用" scheme="http://yoursite.com/categories/%E4%B8%9A%E5%8A%A1%E5%BA%94%E7%94%A8/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Google Shasta解读</title>
